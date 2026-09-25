@@ -1,0 +1,188 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Smart Budget & Recommendation Assistant</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(135deg, #16a085, #2ecc71);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 5px 20px #0005;
+        }
+
+        h1 {
+            color: #16a085;
+        }
+
+        input, select {
+            width: 90%;
+            padding: 12px;
+            margin: 8px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 95%;
+            padding: 13px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 7px;
+            background: #16a085;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #138d75;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            line-height: 1.7;
+        }
+
+        .good {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .amount {
+            font-size: 28px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <h1>💰 Smart Budget Assistant</h1>
+
+    <p>Manage your money smartly!</p>
+
+    <input type="number" id="budget"
+           placeholder="Enter Monthly Budget">
+
+    <select id="category">
+        <option value="">Select Expense Category</option>
+        <option>Food</option>
+        <option>Travel</option>
+        <option>Shopping</option>
+        <option>Education</option>
+        <option>Entertainment</option>
+        <option>Other</option>
+    </select>
+
+    <input type="number" id="expense"
+           placeholder="Enter Expense Amount">
+
+    <button onclick="checkBudget()">
+        Check Budget
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+function checkBudget() {
+
+    let budget = Number(document.getElementById("budget").value);
+    let expense = Number(document.getElementById("expense").value);
+    let category = document.getElementById("category").value;
+
+    let result = document.getElementById("result");
+
+    if (budget <= 0 || expense <= 0 || category == "") {
+
+        result.style.display = "block";
+        result.className = "danger";
+
+        result.innerHTML =
+            "❌ Please enter all details correctly.";
+
+        return;
+    }
+
+    let remaining = budget - expense;
+    let percentage = (expense / budget) * 100;
+
+    result.style.display = "block";
+
+    if (remaining < 0) {
+
+        result.className = "danger";
+
+        result.innerHTML =
+            "<h2>⚠️ Budget Exceeded</h2>" +
+            "<p>Category: <b>" + category + "</b></p>" +
+            "<p>Spent: ₹" + expense + "</p>" +
+            "<p>Budget: ₹" + budget + "</p>" +
+            "<p class='amount'>-₹" + Math.abs(remaining) + "</p>" +
+            "<p>💡 Recommendation: Reduce your spending and avoid unnecessary expenses.</p>";
+
+    } else if (percentage >= 75) {
+
+        result.className = "warning";
+
+        result.innerHTML =
+            "<h2>⚠️ Be Careful!</h2>" +
+            "<p>Category: <b>" + category + "</b></p>" +
+            "<p>Spent: ₹" + expense + "</p>" +
+            "<p class='amount'>₹" + remaining + "</p>" +
+            "<p>remaining from your budget.</p>" +
+            "<p>💡 Recommendation: Try to control your expenses.</p>";
+
+    } else {
+
+        result.className = "good";
+
+        result.innerHTML =
+            "<h2>✅ Good Budget Control!</h2>" +
+            "<p>Category: <b>" + category + "</b></p>" +
+            "<p>Spent: ₹" + expense + "</p>" +
+            "<p class='amount'>₹" + remaining + "</p>" +
+            "<p>remaining from your budget.</p>" +
+            "<p>💡 Recommendation: You are managing your budget well!</p>";
+    }
+}
+
+</script>
+
+</body>
+</html>
+```
